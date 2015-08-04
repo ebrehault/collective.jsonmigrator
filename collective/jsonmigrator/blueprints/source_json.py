@@ -5,6 +5,9 @@ from zope.interface import classProvides
 from zope.interface import implements
 import os
 import simplejson
+import logging
+
+logger = logging.getLogger('JSON FILES')
 
 DATAFIELD = '_datafield_'
 
@@ -41,7 +44,8 @@ class JSONSource(object):
                 for j in os.listdir(os.path.join(self.path, str(item3)))
                 if j.endswith('.json')
             ]):
-
+                logger.info(os.path.join(
+                    self.path, str(item3), '%s.json' % item2))
                 f = open(os.path.join(
                     self.path, str(item3), '%s.json' % item2
                 ))

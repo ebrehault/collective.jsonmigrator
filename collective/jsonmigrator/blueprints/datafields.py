@@ -3,6 +3,9 @@ from collective.transmogrifier.interfaces import ISectionBlueprint
 from zope.interface import classProvides
 from zope.interface import implements
 import base64
+import logging
+logger = logging.getLogger('MIGRATION')
+
 
 try:
     from Products.Archetypes.interfaces import IBaseObject
@@ -64,7 +67,10 @@ class DataFields(object):
                     field_value = field.get(obj)
                     if not hasattr(field_value, 'data') or value != field_value.data:
                         field.set(obj, value)
-                        obj.setFilename(item[key]['filename'], fieldname)
-                        obj.setContentType(item[key]['content_type'], fieldname)
+                        try:
+                            obj.setFilename(item[key]['filename'], fieldname)
+                            obj.setContentType(item[key]['content_type'], fieldname)
+                        except:
+                            logger.info("ERROR on file %s" % fieldname)
 
             yield item
