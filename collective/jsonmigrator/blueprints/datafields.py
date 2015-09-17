@@ -66,11 +66,7 @@ class DataFields(object):
                     # XXX: handle other data field implementations
                     field_value = field.get(obj)
                     if not hasattr(field_value, 'data') or value != field_value.data:
-                        field.set(obj, value)
-                        try:
-                            obj.setFilename(item[key]['filename'], fieldname)
-                            obj.setContentType(item[key]['content_type'], fieldname)
-                        except:
-                            logger.info("ERROR on file %s" % fieldname)
+                        field.set(obj, value, filename=item[key]['filename'])
+                        obj.setContentType(item[key]['content_type'], fieldname)
 
             yield item
